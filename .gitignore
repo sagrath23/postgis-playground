@@ -42,3 +42,6 @@ Thumbs.db
 
 # DB scripts
 /scripts/start-db.sh
+
+# Next.js
+.next

@@ -1,11 +1,11 @@
 {
   "name": "client",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/client/src",
+  "sourceRoot": "apps/client",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
+      "executor": "@nx/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -13,65 +13,45 @@
       },
       "configurations": {
         "development": {
-          "mode": "development"
+          "outputPath": "apps/client"
         },
-        "production": {
-          "mode": "production"
-        }
+        "production": {}
       }
     },
     "serve": {
-      "executor": "@nx/vite:dev-server",
+      "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "client:build"
+        "buildTarget": "client:build",
+        "dev": true
       },
       "configurations": {
         "development": {
           "buildTarget": "client:build:development",
-          "hmr": true
+          "dev": true
         },
         "production": {
           "buildTarget": "client:build:production",
-          "hmr": false
+          "dev": false
         }
       }
     },
-    "preview": {
-      "executor": "@nx/vite:preview-server",
-      "defaultConfiguration": "development",
+    "export": {
+      "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "client:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "client:build:development"
-        },
-        "production": {
-          "buildTarget": "client:build:production"
-        }
+        "buildTarget": "client:build:production"
       }
     },
     "test": {
-      "executor": "@nx/vite:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/client"
+        "jestConfig": "apps/client/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/client/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "client:build"
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []
